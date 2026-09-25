@@ -27,6 +27,7 @@ local uosc = require("modules.uosc")
 local PROVIDERS = {
     opensubtitles = require("providers.opensubtitles"),
     subdl = require("providers.subdl"),
+    podnapisi = require("providers.podnapisi"),
 }
 
 local function current_file()

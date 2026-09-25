@@ -12,7 +12,7 @@ Pure Lua + `curl` — **no external Lua dependencies** (no luasocket, no luafile
 
 - 🔍 **Two search modes** — OSDb movie hash (first+last 64 KiB of the file) and cleaned filename/title, with season/episode support.
 - 🎬 **Works in plain mpv** (drop into `scripts/`) **and Haruna** (one-line installer, no fork).
-- 🧩 **Pluggable providers** — OpenSubtitles (REST v1) and **Subdl** (API v2) included; the provider interface makes others easy to add.
+- 🧩 **Pluggable providers** — OpenSubtitles (REST v1), **Subdl** (API v2), and **Podnapisi** (no key needed; experimental — the site was unreachable during development, so it's untested live). The provider interface makes others easy to add.
 - 👤 **Your own OpenSubtitles account** — optional login switches downloads to your personal quota instead of the app's shared limits.
 - 🖱️ **Result picker** — native **uosc** menu when uosc is installed, with an ASS-overlay fallback (↑/↓ or j/k, PgUp/PgDn, `Enter`, `Esc`); or `auto_select` for hands-free best-match.
 - 💾 Saves next to the video as `<name>.<lang>.<ext>` and `sub-add`s it immediately.
