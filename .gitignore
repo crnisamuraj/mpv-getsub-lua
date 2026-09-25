@@ -1,0 +1,4 @@
+*.srt
+__pycache__/
+/tmp/
+*.conf.local
