@@ -93,4 +93,4 @@ Layout:
 
 ## License
 
-TBD
+[MIT](LICENSE)
