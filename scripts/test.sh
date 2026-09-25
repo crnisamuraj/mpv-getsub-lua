@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Headless end-to-end test for mpv-open-sub-lua using libmpv directly.
+# Headless end-to-end test for mpv-subget-lua using libmpv directly.
 # Usage: ./scripts/test.sh /path/to/video.mkv
 set -euo pipefail
 cd "$(dirname "$0")/.."
 VIDEO="${1:?pass a video file}"
-SCRIPT_DIR="$(cd mpv-open-sub-lua && pwd)"
+SCRIPT_DIR="$(cd mpv-subget-lua && pwd)"
 
 VIDEO="$VIDEO" SCRIPT_DIR="$SCRIPT_DIR" python3 - <<'PY'
 import ctypes, os, time

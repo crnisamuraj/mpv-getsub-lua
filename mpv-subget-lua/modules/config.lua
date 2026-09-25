@@ -1,7 +1,7 @@
--- Configuration for mpv-open-sub-lua.
+-- Configuration for mpv-subget-lua.
 --
--- Options are read from  <script-opts>/mpv-open-sub-lua.conf
--- (i.e. ~/.config/mpv/script-opts/mpv-open-sub-lua.conf) via mpv's mp.options
+-- Options are read from  <script-opts>/mpv-subget-lua.conf
+-- (i.e. ~/.config/mpv/script-opts/mpv-subget-lua.conf) via mpv's mp.options
 -- module, so they also work when injected into Haruna.
 
 local options = require("mp.options")
@@ -41,7 +41,7 @@ local defaults = {
 }
 
 local conf = {}
-options.read_options(conf, "mpv-open-sub-lua")
+options.read_options(conf, "mpv-subget-lua")
 
 -- Merge over defaults so missing keys still have sane values.
 for k, v in pairs(defaults) do

@@ -12,7 +12,7 @@ local msg = require("mp.msg")
 local utils = require("mp.utils")
 
 local API = "https://api.opensubtitles.com/api/v1"
-local UA = "mpv-open-sub-lua v0.1"
+local UA = "mpv-subget-lua v0.1"
 
 local M = {}
 M.name = "opensubtitles"
