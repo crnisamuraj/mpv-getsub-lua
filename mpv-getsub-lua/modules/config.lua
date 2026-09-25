@@ -40,15 +40,10 @@ local defaults = {
     curl_extra = "",
 }
 
-local conf = {}
+-- read_options validates each key against the table passed in, so read
+-- directly into the defaults table (which contains every valid key).
+local conf = defaults
 options.read_options(conf, "mpv-getsub-lua")
-
--- Merge over defaults so missing keys still have sane values.
-for k, v in pairs(defaults) do
-    if conf[k] == nil then
-        conf[k] = v
-    end
-end
 
 function conf.language_list()
     local out = {}
