@@ -22,9 +22,11 @@ local utils = require("mp.utils")
 local conf = require("modules.config")
 local hash = require("modules.hash")
 local Picker = require("modules.picker")
+local uosc = require("modules.uosc")
 
 local PROVIDERS = {
     opensubtitles = require("providers.opensubtitles"),
+    subdl = require("providers.subdl"),
 }
 
 local function current_file()
@@ -51,7 +53,10 @@ local function save_path_for(video, result)
     end
     local base = (video:match("([^/\\]+)$") or "subtitle"):gsub("%.%w+$", "")
     local lang = result.language or "und"
-    return string.format("%s/%s.%s.srt", dir, base, lang)
+    -- honor the provider-reported format when present (ass/ssa/vtt…)
+    local ext = (result.format and result.format ~= "")
+        and result.format:lower() or "srt"
+    return string.format("%s/%s.%s.%s", dir, base, lang, ext)
 end
 
 local function do_search()
@@ -108,6 +113,8 @@ local function do_search()
 
     if conf.auto_select or #results == 1 then
         use(results[1])
+    elseif uosc.show(results, function(i) use(results[i]) end) then
+        -- rendered by uosc
     else
         Picker.new(results, use, conf.osd_duration_ms)
     end

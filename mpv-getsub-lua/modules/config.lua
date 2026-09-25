@@ -18,6 +18,9 @@ local defaults = {
     -- Leave empty to be prompted / use only the login flow.
     api_key = "",
 
+    -- Subdl API key (https://subdl.com), used when provider=subdl.
+    subdl_api_key = "",
+
     -- Optional OpenSubtitles user credentials. When set, the script logs in
     -- and downloads against the USER's own quota instead of the app's
     -- anonymous/key-based limits. Password can be left empty and filled by a

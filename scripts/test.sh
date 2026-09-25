@@ -16,6 +16,9 @@ m.mpv_initialize.argtypes=[ctypes.c_void_p]
 ctx = m.mpv_create()
 m.mpv_set_option_string(ctx,b"terminal",b"yes")
 m.mpv_set_option_string(ctx,b"msg-level",b"all=info")
+# enable config so script-opts/mpv-getsub-lua.conf is found, mirroring real usage
+m.mpv_set_option_string(ctx,b"config",b"yes")
+m.mpv_set_option_string(ctx,b"config-dir",os.path.expanduser("~/.config/mpv").encode())
 m.mpv_set_option_string(ctx,b"vo",b"null")
 m.mpv_initialize(ctx)
 sd = os.environ["SCRIPT_DIR"]
