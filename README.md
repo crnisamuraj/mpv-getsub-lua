@@ -1,4 +1,4 @@
-# mpv-subget-lua
+# mpv-getsub-lua
 
 A full remake of VLC's **VLSub** for **mpv** and **mpv-based players** (Haruna, Celluloid, etc.).
 
@@ -13,9 +13,9 @@ Search and download subtitles from OpenSubtitles (REST v1) directly from the pla
 - Your own OpenSubtitles account login to avoid shared API-key rate limits
 
 ## Layout
-- `mpv-subget-lua/main.lua` — the mpv script entrypoint (this file is what mpv loads)
-- `mpv-subget-lua/modules/` — config, OSD hash, picker UI, client orchestration
-- `mpv-subget-lua/providers/` — pluggable subtitle providers
+- `mpv-getsub-lua/main.lua` — the mpv script entrypoint (this file is what mpv loads)
+- `mpv-getsub-lua/modules/` — config, OSD hash, picker UI, client orchestration
+- `mpv-getsub-lua/providers/` — pluggable subtitle providers
 - `scripts/` — installer, Haruna injector, dev test harness
 
 ## Quick test (headless, no GUI needed)

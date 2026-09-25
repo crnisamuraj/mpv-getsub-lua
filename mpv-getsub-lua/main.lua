@@ -1,4 +1,4 @@
--- Entry point for mpv-subget-lua.
+-- Entry point for mpv-getsub-lua.
 --
 -- Loaded by mpv from ~/.config/mpv/scripts/ (rename this folder's parent so
 -- main.lua sits at the top level), or injected into Haruna via load-script.
@@ -57,12 +57,12 @@ end
 local function do_search()
     local video = current_file()
     if not video then
-        mp.osd_message("mpv-subget-lua: no file loaded", 3)
+        mp.osd_message("mpv-getsub-lua: no file loaded", 3)
         return
     end
     local provider = PROVIDERS[conf.provider]
     if not provider then
-        mp.osd_message("mpv-subget-lua: unknown provider " .. tostring(conf.provider), 3)
+        mp.osd_message("mpv-getsub-lua: unknown provider " .. tostring(conf.provider), 3)
         return
     end
 
@@ -113,6 +113,6 @@ local function do_search()
     end
 end
 
-mp.add_key_binding("n", "mpv-subget-lua", do_search)
+mp.add_key_binding("n", "mpv-getsub-lua", do_search)
 mp.register_script_message("search", do_search)
-msg.info("mpv-subget-lua loaded (press n, or script-message search)")
+msg.info("mpv-getsub-lua loaded (press n, or script-message search)")
