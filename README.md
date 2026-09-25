@@ -43,6 +43,14 @@ This registers a Haruna **custom command** that runs `load-script …/main.lua` 
 
 Options: `--key <key>` to change the trigger, `--no-startup` to only bind the key, `--uninstall` to remove.
 
+## Install — Celluloid
+
+```bash
+./scripts/install-celluloid.sh
+```
+
+Celluloid natively auto-loads every file in `~/.config/celluloid/scripts/` (its plugin mechanism), so the installer just drops a thin wrapper there. Copy your config to `~/.config/celluloid/script-opts/mpv-getsub-lua.conf`. `--uninstall` removes the wrapper.
+
 ## Configure
 
 Create `~/.config/mpv/script-opts/mpv-getsub-lua.conf` (see `docs/CONFIG.example.conf`):
