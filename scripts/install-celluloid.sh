@@ -43,6 +43,22 @@ package.path = "$SCRIPT_DIR/?.lua;" .. package.path
 dofile("$MAIN_LUA")
 EOF
 
+# Seed the config so the script never runs keyless. Prefer an existing mpv
+# script-opts config (already has the user's key), else the example.
+MPV_CONF="${XDG_CONFIG_HOME:-$HOME/.config}/mpv/script-opts/mpv-getsub-lua.conf"
+DEST_CONF="$OPTS_DIR/mpv-getsub-lua.conf"
+if [[ ! -s "$DEST_CONF" ]]; then
+    if [[ -s "$MPV_CONF" ]]; then
+        cp "$MPV_CONF" "$DEST_CONF"
+        echo "Copied existing config from $MPV_CONF"
+    else
+        cp "$(pwd)/docs/CONFIG.example.conf" "$DEST_CONF"
+        echo "Wrote example config to $DEST_CONF — EDIT IT and add your api_key"
+    fi
+else
+    echo "Config already present at $DEST_CONF (left untouched)"
+fi
+
 echo "Installed for Celluloid."
 echo "  wrapper : $WRAPPER"
 echo "  script  : $MAIN_LUA"
