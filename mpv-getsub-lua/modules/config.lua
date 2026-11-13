@@ -1,13 +1,18 @@
 -- Configuration for mpv-getsub-lua.
 --
--- Options are read from  <script-opts>/mpv-getsub-lua.conf
--- (i.e. ~/.config/mpv/script-opts/mpv-getsub-lua.conf) via mpv's mp.options
--- module, so they also work when injected into Haruna.
+-- Primary source: mpv's script-opts machinery (works in plain mpv and in
+-- players that enable config loading, e.g. Celluloid).
+--
+-- Fallback: libmpv embedders like Haruna initialize mpv with config=no, so
+-- mp.options never sees any file. In that case we parse the conf ourselves
+-- from the standard XDG locations. Values set by mpv take precedence; the
+-- manual pass only fills keys still at their defaults.
 
 local options = require("mp.options")
+local msg = require("mp.msg")
 
 local defaults = {
-    -- Provider to use. Currently only "opensubtitles" is implemented.
+    -- Provider to use: "opensubtitles", "subdl" or "podnapisi".
     provider = "opensubtitles",
 
     -- Preferred subtitle languages, comma-separated ISO-639 codes.
@@ -47,6 +52,52 @@ local defaults = {
 -- directly into the defaults table (which contains every valid key).
 local conf = defaults
 options.read_options(conf, "mpv-getsub-lua")
+
+-- ---- fallback manual parse (for config=no embedders like Haruna) ----
+
+local function candidate_paths()
+    local home = os.getenv("HOME") or ""
+    local xdg = os.getenv("XDG_CONFIG_HOME")
+    if not xdg or xdg == "" then
+        xdg = home .. "/.config"
+    end
+    return {
+        xdg .. "/mpv/script-opts/mpv-getsub-lua.conf",
+        xdg .. "/celluloid/script-opts/mpv-getsub-lua.conf",
+        home .. "/.mpv/script-opts/mpv-getsub-lua.conf",
+    }
+end
+
+local function coerce(key, raw)
+    local d = defaults[key]
+    if type(d) == "boolean" then
+        return raw == "yes" or raw == "true" or raw == "1"
+    end
+    if type(d) == "number" then
+        return tonumber(raw) or d
+    end
+    return raw
+end
+
+local function manual_fill()
+    for _, path in ipairs(candidate_paths()) do
+        local f = io.open(path, "r")
+        if f then
+            msg.info("config: reading fallback file " .. path)
+            for line in f:lines() do
+                local k, v = line:match("^%s*([%w_%-]+)%s*=%s*(.-)%s*$")
+                if k and defaults[k] ~= nil
+                    and (conf[k] == nil or conf[k] == defaults[k]) then
+                    conf[k] = coerce(k, v)
+                end
+            end
+            f:close()
+            return
+        end
+    end
+end
+
+manual_fill()
 
 function conf.language_list()
     local out = {}
