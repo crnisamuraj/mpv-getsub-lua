@@ -35,12 +35,17 @@ function M.show(results, on_pick)
     for i, r in ipairs(results) do
         local se = (r.season and r.episode)
             and string.format(" S%02dE%02d", r.season, r.episode) or ""
-        local title = (r.title ~= "" and r.title or r.release)
-        local hint = string.format("%s%s  •  %s dl%s%s",
-            r.language or "?", se, tostring(r.downloads or 0),
-            r.hearing_impaired and " • HI" or "", r.from_trusted and " • ★" or "")
+        local fps_s = ""
+        if r.fps and tonumber(r.fps) and r.fps > 0 then
+            local mark = r.fps_ok == true and "✓" or (r.fps_ok == false and "✗" or "")
+            fps_s = string.format("%.4g%s  •  ", r.fps, mark)
+        end
+        local hint = string.format("%s%s%s  •  %s dl%s%s%s",
+            fps_s, r.language or "?", se, tostring(r.downloads or 0),
+            r.hearing_impaired and " • HI" or "", r.from_trusted and " • ★" or "",
+            r.hash_match and " • HASH✓" or "")
         table.insert(items, {
-            title = title .. se,
+            title = (r.release ~= "" and r.release or r.title) .. se,
             hint = hint,
             value = string.format("script-message mpv-getsub-lua-pick %d", i),
         })

@@ -82,7 +82,29 @@ osd_duration_ms=8000
 
 - Open a video and press **`n`** (or run `script-message search`).
 - If multiple results: pick with ↑/↓ + `Enter`; `Esc` cancels.
-- With `auto_select=yes` the best match downloads automatically.
+- With `auto_select=yes` the best-scored match downloads automatically.
+- **Batch mode:** `script-message batch 5` downloads the top-5 ranked
+  candidates as numbered files (`<name>.1.<lang>.srt`, `.2.…`, …) and loads
+  them all — then just cycle subtitle tracks (`v`/`j`) to find the one that
+  syncs. Perfect for releases with no exact-match subs.
+
+### How results are ranked
+
+`modules/rank.lua` scores every result against your actual video file:
+
+| Signal | Effect |
+|---|---|
+| exact file hash match | +1000 (guaranteed sync) |
+| fps matches the video (±0.5) | +50 |
+| fps mismatch > 2 (e.g. 25 fps PAL sub on a 23.976 film) | −40 (would drift) |
+| release-name tokens shared with the filename (`REMASTERED`, `BONE`…) | +10 each (cap 3) |
+| trusted uploader | +15 |
+| download count (log-scaled) | up to ~+25 |
+| result names a different movie | −100 |
+| provably wrong year | dropped entirely |
+
+The picker shows the decisive fields per row: **release name, fps ✓/✗,
+language, downloads, HI, trusted ★, HASH✓**.
 
 ## Development
 

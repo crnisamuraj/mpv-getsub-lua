@@ -97,6 +97,7 @@ function M.search(conf, q)
             season = feat.season_number,
             episode = feat.episode_number,
             from_trusted = a.from_trusted or false,
+            hash_match = a.moviehash_match or false,
             provider = M.name,
         })
     end

@@ -21,8 +21,16 @@ local function fmt_item(r, sel)
     local trusted = r.from_trusted and " ★" or ""
     local se = (r.season and r.episode)
         and string.format(" S%02dE%02d", r.season, r.episode) or ""
-    local left = ellipsize((r.title ~= "" and r.title or r.release) .. se, MAXLEN)
-    local right = string.format("%s %s dl%s%s", r.language or "?", tostring(r.downloads or 0), hi, trusted)
+    -- fps verdict set by modules/rank: true=matches video, false=will drift
+    local fps_s = ""
+    if r.fps and tonumber(r.fps) and r.fps > 0 then
+        local mark = r.fps_ok == true and "✓" or (r.fps_ok == false and "✗" or "")
+        fps_s = string.format("%.4gfps%s ", r.fps, mark)
+    end
+    local hashm = r.hash_match and " HASH✓" or ""
+    local left = ellipsize(r.release .. se, MAXLEN)
+    local right = string.format("%s%s %s dl%s%s", fps_s, r.language or "?",
+        tostring(r.downloads or 0), hi, trusted) .. hashm
     if sel then
         -- highlighted row: yellow text + leading marker
         return string.format("{\\c&H00FFFF&\\b1}▶ %s{\\b0\\c&HFFFFFF&}  %s", left, right)
